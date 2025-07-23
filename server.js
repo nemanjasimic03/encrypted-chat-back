@@ -24,14 +24,14 @@ io.on('connection', (socket) => {
   // Kad se korisnik registruje, čuvaj bar username (publicKey može doći kasnije)
   socket.on('register-user', (username) => {
     users[socket.id] = { username, publicKey: null };
-    console.log('Register:', users);
+    // console.log('Register:', users);
     emitUsers(); // šalje svim korisnicima
   });
 
   // Kad korisnik uloguje (pošalje i javni ključ)
   socket.on('login', ({ username, publicKey }) => {
     users[socket.id] = { username, publicKey };
-    console.log('Login:', users);
+    // console.log('Login:', users);
     emitUsers(); // šalje svim korisnicima
     io.emit('user-joined', { username });
   });
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
         username: user.username,
         publicKey: user.publicKey,
       }));
-    console.log('Emitujem korisnike:', usersWithSocketIds); // Dodaj ovaj log
+    // console.log('Emitujem korisnike:', usersWithSocketIds); 
     io.emit('users', usersWithSocketIds);
     io.emit('active-users', usersWithSocketIds.reduce((acc, u) => {
       acc[u.socketId] = u.username;
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
 
     Object.entries(encryptedMessages).forEach(([socketId, encryptedMessage]) => {
     //   console.log(`Šaljem poruku korisniku ${socketId} od ${fromUsername}`);
-      console.log(`🔐 Enkriptovana poruka za ${socketId} od ${fromUsername}: `, encryptedMessage); 
+      console.log(`🔐 Enkriptovana poruka od ${fromUsername}: `, encryptedMessage); 
       io.to(socketId).emit('receive-message', {
         encryptedMessage,
         fromUsername,
@@ -90,7 +90,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = 3001;
+const PORT =3001;
 server.listen(PORT, () => {
   console.log(`Server sluša na http://localhost:${PORT}`);
 });
