@@ -59,7 +59,8 @@ io.on('connection', (socket) => {
     if (!encryptedMessages) return;
 
     Object.entries(encryptedMessages).forEach(([socketId, encryptedMessage]) => {
-      console.log(`Šaljem poruku korisniku ${socketId} od ${fromUsername}`);
+    //   console.log(`Šaljem poruku korisniku ${socketId} od ${fromUsername}`);
+      console.log(`🔐 Enkriptovana poruka za ${socketId} od ${fromUsername}: `, encryptedMessage); 
       io.to(socketId).emit('receive-message', {
         encryptedMessage,
         fromUsername,
